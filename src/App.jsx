@@ -1,98 +1,118 @@
-/* eslint-disable */
-import { useState } from 'react';
-import './App.css'
+import { useEffect, useState } from 'react';
+import axios from 'axios';
+import './App.css';
+import WriteModal from './WriteModal';
 
 function App() {
-  
-  let post = '역삼 우동 맛집';
-  let [글제목, 글제목변경] = useState(['여자 코트 추천', '겨울 간식 추천', '겨울 노래']);//자주 바뀔거 같은 html은 state로 만들어주는게 좋다.
-  let [따봉, 따봉변경] = useState([0,0,0]); //좋아요 useState
-  let [modal, setModal] = useState(false); // 페이지 로드 시 모달창이 닫혀있는 상태
-  let [modalTilte, setModalTitle] = useState(0); //모달창의 제목을 바꾸기 위한 state
-  let [입력값, 입력값변경] = useState(''); //입력값을 받아오기 위한 state
+  const [글목록, 글목록변경] = useState([]);
+  const [modal, setModal] = useState(false);
+  const [modalTilte, setModalTitle] = useState(0);
+  const [showModal, setshowModal] = useState(false);
+
+  // 글 목록 불러오기
+  const fetchPosts = () => {
+    axios.get('http://localhost:5050/api/posts')
+      .then((res) => {
+        const sliced = res.data.slice(0, 5);
+        글목록변경(sliced);
+      })
+      .catch((err) => console.error('불러오기 실패:', err));
+  };
+
+  useEffect(() => {
+    fetchPosts();
+  }, []);
+
+  // 좋아요 +1
+  const handleLike = (id, index) => {
+    axios.put(`http://localhost:5050/api/posts/${id}/like`)
+      .then(() => {
+        const updated = [...글목록];
+        updated[index].likes += 1;
+        글목록변경(updated);
+      })
+      .catch((err) => console.error('좋아요 실패:', err));
+  };
+
+  // 글 삭제
+  const handleDelete = (id) => {
+    axios.delete(`http://localhost:5050/api/posts/${id}`)
+      .then(() => {
+        글목록변경(글목록.filter(post => post.id !== id));
+      })
+      .catch((err) => console.error('삭제 실패:', err));
+  };
 
   return (
-    
     <div className="App">
       <div className="black-nav">
         <h4>LES_Blog</h4>
       </div>
-      <button onClick={() => {
-          let copy = [...글제목];
-          copy.sort(function(a, b){
-            return a.localeCompare(b);
-          });
-          글제목변경(copy);
-        }}>가나다 제목 정렬</button>
-      {/* <div className="list">
-        <h4> { 글제목[0] } <span onClick={ () => { 따봉변경(따봉+1) }}>👍</span>{ 따봉 }</h4>
-        <p>2월 17일 발행</p>
-      </div>
-      <div className="list">
-        <h4>{ 글제목[1] }</h4>
-        <p>2월 17일 발행</p>
-      </div>
-      <div className="list">
-        <h4 onClick={() => { setModal(!modal) }}>{ 글제목[2] }</h4>
-        <p>2월 17일 발행</p>
-      </div> */}
-      {
-      글제목.map(function(a, i){
-        return(
-          <div className="list" key={i}>
-          <h4 onClick={() => { 
-            setModal(!modal); setModalTitle(i); }}>
-              { 글제목[i] }  
-            <span onClick={ (e) => { e.stopPropagation(); // 이벤트 버블링을 막아줌
-               let copy = [...따봉]; // 따봉 배열을 복사
-               copy[i] = copy[i] + 1; // 복사한 배열의 i번째 요소에 +1
-               따봉변경(copy); // 상태 업데이트
-               }}>👍</span>{ 따봉[i] }
+
+      <button onClick={() => setshowModal(true)}>글쓰기</button>
+
+      {글목록.length === 0 && (
+        <p style={{ textAlign: "center" }}>등록된 글이 없습니다.</p>
+      )}
+
+      {글목록.map((post, i) => (
+        <div className="list" key={post.id}>
+          <h4
+            onClick={() => {
+              setModal(true);
+              setModalTitle(i);
+            }}
+          >
+            <h4>
+              {post.title} {!post.is_public && "🔒"}
+            </h4>
+            <span
+              onClick={(e) => {
+                e.stopPropagation();
+                handleLike(post.id, i);
+              }}
+            >
+              {" "}
+              👍
+            </span>{" "}
+            {post.likes}
           </h4>
-          <p>2월 17일 발행</p>
-          <button onClick={() => {
-            let copy = [...글제목];
-            copy.splice(i, 1); //splice는 배열의 i번째 요소부터 1개를 삭제
-            글제목변경(copy);
-          }}>삭제</button>
+          <p>{post.created_at?.substring(0, 10)} 발행</p>
+          <button onClick={() => handleDelete(post.id)}>삭제</button>
         </div>
-        )
-      })
-      }
+      ))}
 
-      <input  onChange={(e) => {입력값변경(e.target.value); console.log(입력값)}}/>
-      <button onClick={() => {
-        let copy = [...글제목];
-        copy.unshift(입력값); //unshift는 배열의 맨 앞에 추가
-        글제목변경(copy);
-      }}>등록</button>
+      {modal && <Modal post={글목록[modalTilte]} />}
 
-{/* 
-      <button onClick={() => { setModalTitle(0)}}>글제목0</button>
-      <button onClick={() => { setModalTitle(1)}}>글제목1</button>
-      <button onClick={() => { setModalTitle(2)}}>글제목2</button> */}
-     {
-        modal == true ? <Modal modalTilte={modalTilte} 글제목={글제목}/> : null
-      }
+      {showModal && (
+        <WriteModal
+          onClose={() => setshowModal(false)}
+          onPostSuccess={fetchPosts}
+        />
+      )}
     </div>
-
   );
 }
-/*
-* 컴포넌트 만드는 법
-* 1. function() 만들고
-* 2. return() 안에 html 담기
-* 3. <함수명></함수명> 쓰기*/
-function Modal(props){
-    return(
-        <div className="modal" style={{background: props.color}}>
-            <h4>{props.글제목[props.modalTilte]}</h4>
-            <p>날짜</p>
-            <p>상세내용</p>
-            <button>글수정</button>
-        </div>
-    )
+
+// 상세 모달
+function Modal({ post }) {
+  if (!post) return null;
+
+  return (
+    <div className="modal">
+      <h4>{post.title}</h4>
+      <p>{post.created_at?.substring(0, 10)}</p>
+      <p>{post.content}</p>
+      {post.image_url && (
+        <img
+          src={`http://localhost:5050${post.image_url}`}
+          alt="첨부 이미지"
+          style={{ width: '100%' }}
+        />
+      )}
+      <button>글수정</button>
+    </div>
+  );
 }
 
-
-export default App
+export default App;
