@@ -1,0 +1,102 @@
+.home-wrapper {
+    padding: 60px 40px;
+    font-family: 'Noto Serif KR', serif;
+  }
+  
+  .keyword-title {
+    text-align: center;
+    font-size: 1.8rem;
+    font-weight: 600;
+    letter-spacing: 5px;
+  }
+  
+  .keyword-subtitle {
+    text-align: center;
+    color: #888;
+    margin-bottom: 30px;
+  }
+  
+  .keyword-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr); /* 한 줄에 6개 */
+    border-top: 1px solid black;
+    border-left: 1px solid black;
+  }
+  
+  .keyword-item {
+    padding: 18px 0;
+    font-size: 0.95rem;
+    color: #333;
+    background: #fff;
+    text-align: center;
+    border-right: 1px solid black;
+    border-bottom: 1px solid black;
+    transition: 0.2s;
+  }
+  
+  .keyword-item:hover {
+    background: #f8f8f8;
+    cursor: pointer;
+  }
+  
+  
+  .serial-section {
+    margin-top: 80px;
+  }
+  
+  .serial-subtitle {
+    text-align: center;
+    color: #888;
+    margin-bottom: 20px;
+  }
+  
+  .day-tabs,
+  .sort-tabs {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    margin: 12px 0;
+  }
+  
+  .day-tab,
+  .sort-tabs button {
+    border: none;
+    background: none;
+    font-size: 1rem;
+    padding: 6px 10px;
+    cursor: pointer;
+  }
+  
+  .sort-tabs .active {
+    border-bottom: 2px solid #00c7ae;
+    font-weight: bold;
+  }
+  
+  .serial-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+    padding: 0 10px;
+  }
+  
+  .serial-card {
+    border: 1px solid #eee;
+    padding: 20px;
+    text-align: left;
+  }
+  
+  .serial-category {
+    font-size: 0.85rem;
+    color: #aaa;
+  }
+  
+  .serial-title {
+    font-size: 1.1rem;
+    margin: 8px 0;
+  }
+  
+  .serial-author {
+    font-size: 0.9rem;
+    color: #666;
+  }
+  

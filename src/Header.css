@@ -1,0 +1,133 @@
+.brunch-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 40px;
+    border-bottom: 1px solid #ddd;
+    background-color: white;
+  }
+  
+  .left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  
+  .logo {
+    font-size: 1.4rem;
+    font-weight: 500;
+    color: #333;
+  }
+  
+  .logo .underline {
+    border-bottom: 2px solid #333;
+    padding-bottom: 2px;
+  }
+  
+  .right {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  
+  .icon {
+    font-size: 1.2rem;
+    color: #333;
+    cursor: pointer;
+  }
+  
+/* 기존 .apply-button은 삭제하거나 안 써도 됨 */
+
+.login-button,
+.signup-button {
+  padding: 8px 16px;
+  margin-left: 8px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  border: 1px solid #00c7ae;
+  border-radius: 20px;
+  background-color: white;
+  color: #00c7ae;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.login-button:hover,
+.signup-button:hover {
+  background-color: #00c7ae;
+  color: white;
+}
+
+.mypage-button {
+    padding: 8px 14px;
+    margin: 0 6px;
+    border-radius: 20px;
+    border: 1px solid #00c7ae;
+    color: #00c7ae;
+    background: none;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  
+  .mypage-button:hover {
+    background-color: #00c7ae;
+    color: white;
+  }
+  
+  .logout-button {
+    padding: 8px 14px;
+    border-radius: 20px;
+    border: 1px solid #ccc;
+    background: none;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  
+  .logout-button:hover {
+    background-color: #eee;
+  }
+
+  .left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .logo-wrap {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.1;
+  }
+  
+  .logo {
+    font-size: 1.4rem;
+    font-weight: bold;
+  }
+  
+  .slogan {
+    font-size: 0.8rem;
+    color: #888;
+    font-weight: 400;
+    margin-top: 2px;
+  }
+
+  .write-button {
+    background: #00c7ae;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    margin-right: 10px;
+    cursor: pointer;
+    transition: 0.2s;
+  }
+  
+  .write-button:hover {
+    background: #00b5a2;
+  }
+  
+  
+  

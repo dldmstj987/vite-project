@@ -1,0 +1,75 @@
+.sidebar-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.3);
+    z-index: 99;
+  }
+  
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 280px;
+    height: 100%;
+    background-color: white;
+    box-shadow: 2px 0 8px rgba(0,0,0,0.1);
+    padding: 20px;
+    z-index: 100;
+    animation: slideIn 0.3s ease-out;
+  }
+  
+  @keyframes slideIn {
+    from {
+      transform: translateX(-100%);
+    } to {
+      transform: translateX(0);
+    }
+  }
+  
+  .close-btn {
+    background: none;
+    border: none;
+    font-size: 1.8rem;
+    float: right;
+    cursor: pointer;
+  }
+  
+  .profile-img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin: 20px 0 10px;
+  }
+  
+  .user-id {
+    font-size: 0.9rem;
+    color: gray;
+    margin-bottom: 20px;
+  }
+  
+  .sidebar-buttons button {
+    border: 1px solid #00c7ae;
+    color: #00c7ae;
+    background: none;
+    padding: 6px 12px;
+    border-radius: 20px;
+    margin: 0 4px;
+    cursor: pointer;
+  }
+  
+  .sidebar-menu {
+    margin-top: 30px;
+    list-style: none;
+    padding: 0;
+    color: #333;
+  }
+  
+  .sidebar-menu li {
+    margin-bottom: 12px;
+    font-size: 0.95rem;
+  }
+  
