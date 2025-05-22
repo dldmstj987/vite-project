@@ -13,7 +13,7 @@ function UserPage() {
   const [userPosts, setUserPosts] = useState([]);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [user, setUser] = useState(null);
-  const [isSidebarOpen, setSidebarOpen] = useState(false); // ✅ 사이드바 상태 추가
+  const [isSidebarOpen, setSidebarOpen] = useState(false);
 
   // 로그인 정보 불러오기
   useEffect(() => {
@@ -26,7 +26,8 @@ function UserPage() {
 
   // 유저 정보 불러오기
   useEffect(() => {
-    axios.get(`http://localhost:5050/api/users/${nickname}`)
+    axios
+      .get(`http://localhost:5050/api/users/${nickname}`)
       .then((res) => setUserInfo(res.data))
       .catch((err) => {
         console.error('사용자 정보 불러오기 실패:', err);
@@ -34,11 +35,12 @@ function UserPage() {
       });
   }, [nickname]);
 
-  // 글 목록
+  // 글 목록 불러오기
   useEffect(() => {
-    axios.get('http://localhost:5050/api/posts')
+    axios
+      .get('http://localhost:5050/api/posts')
       .then((res) => {
-        const filtered = res.data.filter(post => post.nickname === nickname);
+        const filtered = res.data.filter((post) => post.nickname === nickname);
         setUserPosts(filtered);
       })
       .catch((err) => {
@@ -47,6 +49,7 @@ function UserPage() {
       });
   }, [nickname]);
 
+  // 로그아웃
   const handleLogout = () => {
     const confirmed = window.confirm('글방을 닫으시겠습니까?');
     if (!confirmed) return;
@@ -55,11 +58,29 @@ function UserPage() {
     setIsLoggedIn(false);
   };
 
+  // 본문에서 첫 이미지 추출
   const extractFirstImage = (content) => {
     const div = document.createElement('div');
     div.innerHTML = content;
     const img = div.querySelector('img');
     return img ? img.src : null;
+  };
+
+  // 👍 추천 기능
+  const handleLike = async (postId) => {
+    try {
+      const res = await axios.post(`http://localhost:5050/api/posts/${postId}/like`);
+      const updatedLikes = res.data.likes;
+
+      // 추천 수 갱신
+      setUserPosts((prev) =>
+        prev.map((post) =>
+          post.id === postId ? { ...post, likes: updatedLikes } : post
+        )
+      );
+    } catch (err) {
+      console.error('추천 실패:', err);
+    }
   };
 
   return (
@@ -69,7 +90,7 @@ function UserPage() {
         user={user}
         onLogout={handleLogout}
         openModal={() => {}}
-        onMenuClick={() => setSidebarOpen(true)} // ✅ 햄버거 클릭 시 열기
+        onMenuClick={() => setSidebarOpen(true)}
       />
 
       {isSidebarOpen && (
@@ -99,17 +120,39 @@ function UserPage() {
                 key={post.id}
                 onClick={() => navigate(`/post/${post.id}`)}
               >
+                <div className="card-left">
+                  <h4>{post.title} {!post.is_public && '🔒'}</h4>
+                  <p className="post-preview">
+                    {post.content?.replace(/<[^>]+>/g, '').slice(0, 60)}...
+                  </p>
+                  <p
+                    className="post-meta"
+                    onClick={(e) => e.stopPropagation()} // 카드 클릭 방지
+                  >
+                    {post.created_at?.substring(0, 10)}
+                    <button
+                      onClick={() => handleLike(post.id)}
+                      style={{
+                        marginLeft: '12px',
+                        background: 'none',
+                        border: 'none',
+                        cursor: 'pointer',
+                        fontSize: '1rem',
+                      }}
+                      aria-label="추천하기"
+                    >
+                      👍 {post.likes}
+                    </button>
+                  </p>
+                </div>
+
                 {extractFirstImage(post.content) && (
                   <img
+                    className="card-thumb"
                     src={extractFirstImage(post.content)}
                     alt="썸네일"
                   />
                 )}
-                <div className="card-content">
-                  <h4>{post.title} {!post.is_public && '🔒'}</h4>
-                  <p>{post.created_at?.substring(0, 10)} 발행</p>
-                  <p>👍 {post.likes}</p>
-                </div>
               </div>
             ))}
           </div>

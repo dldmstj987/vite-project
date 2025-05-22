@@ -1,0 +1,123 @@
+.write-wrapper {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 80px 16px 160px;
+    font-family: 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif;
+  }
+  
+  .write-form {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+  }
+  
+  .title-input {
+    font-size: 2.5rem;
+    font-weight: 700;
+    border: none;
+    outline: none;
+    margin-bottom: 10px;
+    width: 100%;
+  }
+  
+  .subtitle-input {
+    font-size: 1.2rem;
+    color: #999;
+    border: none;
+    outline: none;
+    margin-bottom: 30px;
+    width: 100%;
+  }
+  
+  .toggle-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 20px;
+  }
+  
+  .toggle-label {
+    font-size: 0.95rem;
+    color: #444;
+  }
+  
+  .toggle-box {
+    width: 48px;
+    height: 24px;
+    background-color: #ddd;
+    border-radius: 9999px;
+    position: relative;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .toggle-circle {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+  }
+  
+  .toggle-text {
+    font-size: 0.95rem;
+    color: #444;
+  }
+  
+  .saved-time {
+    font-size: 0.9rem;
+    color: #aaa;
+    margin-top: 24px;
+    text-align: right;
+  }
+  
+  .button-group {
+    margin-top: 24px;
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+  }
+  
+  .publish-btn {
+    background-color: #111;
+    color: #fff;
+    border: none;
+    padding: 14px 26px;
+    font-size: 1.1rem;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+  
+  .preview-btn {
+    background-color: #e0e0e0;
+    color: #333;
+    border: none;
+    padding: 14px 18px;
+    font-size: 0.95rem;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+  
+  .preview-box {
+    margin-top: 60px;
+    padding: 40px;
+    border: 1px solid #eee;
+    border-radius: 12px;
+    background-color: #fafafa;
+    font-size: 1.05rem;
+    line-height: 1.8;
+  }
+  
+  .preview-box h2 {
+    font-size: 1.8rem;
+    margin-bottom: 10px;
+  }
+  
+  .preview-box h4 {
+    font-size: 1.2rem;
+    color: #999;
+    margin-bottom: 30px;
+  }
+  
