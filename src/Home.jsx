@@ -2,11 +2,14 @@ import { useEffect, useState } from 'react';
 import Header from './Header';
 import Sidebar from './Sidebar';
 import './HomePage.css';
+import Modal from './Modal'
+
 
 function HomePage() {
   const [isSidebarOpen, setSidebarOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [user, setUser] = useState(null);
+  const [modalType, setModalType] = useState(null);
 
   useEffect(() => {
     const stored = localStorage.getItem('user');
@@ -56,13 +59,26 @@ function HomePage() {
         user={user}
         onLogout={handleLogout}
         onMenuClick={() => setSidebarOpen(true)}
-        openModal={() => {}}
+        openModal={(type) => setModalType(type)}
       />
 
       {/* ✅ Sidebar 연결 */}
       {isSidebarOpen && (
         <Sidebar user={user} onClose={() => setSidebarOpen(false)} />
       )}
+
+      {/* ✅ 조건부 모달 렌더링 */}
+    {modalType && (
+      <Modal
+        type={modalType}
+        onClose={() => setModalType(null)}
+        onLoginSuccess={() => {
+          setIsLoggedIn(true);
+          setUser(JSON.parse(localStorage.getItem('user')));
+          setModalType(null);
+        }}
+      />
+    )}
 
       {/* ✅ 본문 - 키워드/요일 연재 등 */}
       <div className="home-wrapper">

@@ -1,28 +1,114 @@
 .UserPage {
-    padding: 40px;
-    text-align: center;
-  }
-  
-  .user-info {
-    margin-bottom: 40px;
-  }
-  
-  .user-profile {
-    width: 120px;
-    height: 120px;
-    border-radius: 50%;
-    object-fit: cover;
-  }
-  
-  .user-bio {
-    margin-top: 10px;
-    font-size: 0.95rem;
-    color: #666;
-  }
-  
-  .no-posts {
-    color: #888;
-    font-size: 1rem;
-    margin-top: 30px;
-  }
-  
+  padding: 40px;
+  text-align: center;
+}
+
+.user-info {
+  margin-bottom: 40px;
+}
+
+.user-profile {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.user-bio {
+  margin-top: 10px;
+  font-size: 0.95rem;
+  color: #666;
+}
+
+.no-posts {
+  color: #888;
+  font-size: 1rem;
+  margin-top: 30px;
+}
+
+/* ✅ 카드 리스트 */
+.card-container {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  padding: 30px 16px 80px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+/* ✅ 카드 전체 */
+.card {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start; /* 수정: stretch → flex-start */
+  border: 1px solid #e1e1e1;
+  border-radius: 12px;
+  padding: 20px;
+  background: #fff;
+  gap: 20px;
+  cursor: pointer;
+  transition: box-shadow 0.2s ease;
+  min-height: 160px; /* ✅ 카드 높이 통일 */
+}
+
+.card:hover {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+}
+
+/* ✅ 카드 왼쪽 */
+.card-left {
+  flex: 1;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* ✅ 카드 오른쪽 썸네일 */
+.card-thumb {
+  flex-shrink: 0;
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 8px;
+  align-self: flex-end; /* 오른쪽 정렬 */
+}
+
+/* ✅ 카드 텍스트 콘텐츠 */
+.card-content {
+  flex: 1;
+  text-align: left;
+}
+
+.card-content h4 {
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+  font-weight: 600;
+}
+
+.card-content .post-preview {
+  font-size: 0.95rem;
+  color: #444;
+  margin-bottom: 12px;
+  line-height: 1.6;
+
+  /* ✅ 줄 수 제한 추가 */
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.card-content .post-meta {
+  font-size: 0.85rem;
+  color: #999;
+}
+
+/* ✅ 이미지 공통 스타일 */
+.card img {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 8px;
+  flex-shrink: 0;
+}
