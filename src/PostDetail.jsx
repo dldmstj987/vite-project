@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import './PostDetail.css';
 import Header from './Header';
+import Sidebar from './Sidebar';
 
 function PostDetail() {
   const { id } = useParams();
@@ -101,6 +102,9 @@ function PostDetail() {
         user={user}
         onLogout={handleLogout}
       />
+
+      {isSidebarOpen && <Sidebar user={user} onClose={() => setSidebarOpen(false)} />}
+
       <div className="post-wrapper">
         <div className="post-header">
           <h1 className="post-title">{post.title}</h1>

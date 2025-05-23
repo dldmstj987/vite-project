@@ -6,6 +6,7 @@ import '@toast-ui/editor/dist/toastui-editor.css';
 import { Editor } from '@toast-ui/react-editor';
 import './PostDetail.css';
 import Header from './Header';
+import Sidebar from './Sidebar';
 
 function EditPost() {
   const { id } = useParams();
@@ -17,9 +18,9 @@ function EditPost() {
   const [subtitle, setSubtitle] = useState('');
   const [isPublic, setIsPublic] = useState(true);
   const [content, setContent] = useState('');
+  const [isEditorReady, setIsEditorReady] = useState(false);
   const [user, setUser] = useState(null);
   const [isSidebarOpen, setSidebarOpen] = useState(false);
-  const [isEditorReady, setIsEditorReady] = useState(false);
 
   useEffect(() => {
     const storedUser = localStorage.getItem('user');
@@ -74,6 +75,9 @@ function EditPost() {
         user={user}
         onLogout={handleLogout}
       />
+
+      {isSidebarOpen && <Sidebar user={user} onClose={() => setSidebarOpen(false)} />}
+
       <div className="post-wrapper">
         <form onSubmit={handleSubmit} className="write-form">
           <input
