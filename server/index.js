@@ -49,6 +49,7 @@ app.get('/api/posts/:id', async (req, res) => {
   const { id } = req.params;
   try {
     const [rows] = await db.query('SELECT * FROM posts WHERE id = ?', [id]);
+    console.log('글 데이터 확인:', rows[0]);
     if (rows.length === 0) return res.status(404).json({ message: '글 없음' });
     res.json(rows[0]);
   } catch (err) {
@@ -68,6 +69,24 @@ app.post('/api/posts', async (req, res) => {
     res.status(500).json(err);
   }
 });
+
+{/* 게시글 수정 */}
+app.put('/api/posts/:id', async (req, res) => {
+  const { id } = req.params;
+  const { title, content, is_public } = req.body;
+
+  try {
+    await db.query(
+      'UPDATE posts SET title = ?, content = ?, is_public = ? WHERE id = ?',
+      [title, content, is_public, id]
+    );
+    res.status(200).json({ message: '게시글 수정 완료' });
+  } catch (err) {
+    console.error('게시글 수정 실패:', err);
+    res.status(500).json({ message: '서버 오류' });
+  }
+});
+
 
 // 📌 이메일 중복 체크
 app.post('/api/check-email', async (req, res) => {
@@ -106,13 +125,21 @@ app.post('/api/signup', async (req, res) => {
 app.get('/api/users/:nickname', async (req, res) => {
   const { nickname } = req.params;
   try {
-    const [rows] = await db.query('SELECT nickname, bio, profile_img FROM users WHERE nickname = ?', [nickname]);
-    if (rows.length === 0) return res.status(404).json({ message: '사용자 없음' });
+    const [rows] = await db.query(
+      'SELECT nickname, IFNULL(bio, "") AS bio, IFNULL(profile_img, "") AS profile_img FROM users WHERE nickname = ?',
+      [nickname]
+    );
+    if (rows.length === 0) {
+      return res.status(404).json({ message: '사용자 없음' });
+    }
+    console.log('🔎 사용자 정보:', rows[0]); // ✅ 로그로 확인
     res.json(rows[0]);
   } catch (err) {
-    res.status(500).json(err);
+    console.error('❌ 사용자 조회 실패:', err); // ✅ 오류 로그
+    res.status(500).json({ message: '서버 오류', error: err });
   }
 });
+
 
 // 📌 글 삭제
 app.delete('/api/posts/:id', async (req, res) => {
@@ -167,6 +194,57 @@ app.post('/api/users/login', async (req, res) => {
     res.status(500).json({ message: '서버 오류', error: err });
   }
 });
+
+//댓글 (get, post)
+app.get('/api/posts/:id/comments', async(req, res) => {
+  const { id } = req.params;
+  try{
+    const [rows] = await db.query('select * from comments where post_id = ? order by created_at ASC', [id])
+    res.json(rows);
+  } catch(err){
+    res.status(500).json(err);
+  }
+});
+
+app.post('/api/posts/:id/comments', async (req, res) => {
+  const { id } = req.params;
+  const { nickname, content } = req.body;
+  try {
+    await db.query('INSERT INTO comments (post_id, nickname, content) VALUES (?, ?, ?)', [id, nickname, content]);
+    res.sendStatus(201);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
+{/* 댓글 수정 */}
+app.put('/api/comments/:id', async (req, res) => {
+  const { id } = req.params;
+  const { content } = req.body;
+
+  try {
+    await db.query('UPDATE comments SET content = ? WHERE id = ?', [content, id]);
+    res.sendStatus(200);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
+{/* 댓글 삭제 */}
+app.delete('/api/comments/:id', async (req, res) => {
+  const { id } = req.params;
+  try {
+    await db.query('DELETE FROM comments WHERE id = ?', [id]);
+    res.sendStatus(200);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
+
+
+
+
 
 const PORT = process.env.PORT || 5050;
 app.listen(PORT, () => console.log(`🚀 Server running on http://localhost:${PORT}`));
