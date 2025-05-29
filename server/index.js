@@ -10,6 +10,8 @@ const app = express();
 app.use(cors());
 app.use(express.json({ limit: '5mb' }));
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+// 가장 아래쪽에 추가! (라우팅보다 위에 있어야 함)
+app.use(express.static(path.join(__dirname, '../dist')));
 
 // multer 설정
 const storage = multer.diskStorage({
@@ -243,8 +245,7 @@ app.delete('/api/comments/:id', async (req, res) => {
   }
 });
 
-// 가장 아래쪽에 추가! (라우팅보다 위에 있어야 함)
-app.use(express.static(path.join(__dirname, '../dist')));
+
 
 // SPA 라우팅 지원
 app.get('*', (req, res) => {
