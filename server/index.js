@@ -24,10 +24,12 @@ let db;
   try {
     db = await mysql.createConnection({
       host: process.env.DB_HOST || 'localhost',
+      port: process.env.DB_PORT || 3306, // ✅ 반드시 추가
       user: process.env.DB_USER || 'eunseo',
       password: process.env.DB_PASSWORD || '1234',
       database: process.env.DB_NAME || 'vite_blog',
     });
+    
     console.log('✅ MySQL 연결 성공');
   } catch (err) {
     console.error('❌ DB 연결 실패:', err);
