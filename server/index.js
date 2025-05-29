@@ -208,13 +208,12 @@ app.get('/api/users/:nickname', async (req, res) => {
 
 // 프론트엔드 정적 파일 제공
 // 프론트 정적 파일: 반드시 __dirname 기준 절대경로 확인
-const clientBuildPath = path.resolve(__dirname, '../dist');
+const clientBuildPath = path.resolve(__dirname, './dist');
 app.use(express.static(clientBuildPath));
-
-// 정적 파일 외 요청은 전부 index.html 제공 (SPA 대응)
 app.get('*', (req, res) => {
   res.sendFile(path.join(clientBuildPath, 'index.html'));
 });
+
 
 
 // 서버 시작
