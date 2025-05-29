@@ -4,8 +4,9 @@ import path from 'path'
 
 export default defineConfig({
   plugins: [react()],
+  base: './', // 👈 경로 기준 설정
   build: {
-    outDir: 'server/dist'  // 👉 빌드 결과를 server 폴더 안으로 이동
-  }
+    outDir: 'server/dist',
+    emptyOutDir: true,
+  },
 })
-
