@@ -219,7 +219,7 @@ app.post('/api/posts/:id/comments', async (req, res) => {
   }
 });
 
-{/* 댓글 수정 */}
+//댓글 수정 
 app.put('/api/comments/:id', async (req, res) => {
   const { id } = req.params;
   const { content } = req.body;
@@ -232,7 +232,7 @@ app.put('/api/comments/:id', async (req, res) => {
   }
 });
 
-{/* 댓글 삭제 */}
+//댓글 삭제 
 app.delete('/api/comments/:id', async (req, res) => {
   const { id } = req.params;
   try {
